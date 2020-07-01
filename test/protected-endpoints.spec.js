@@ -5,7 +5,7 @@ const helpers = require("./test-helpers");
 describe("Articles Endpoints", function() {
   let db;
 
-  const { testUsers, testArticles, testComments } = helpers.makeAuthHeader();
+  const { testUsers, testArticles, testComments } = helpers.makeArticlesFixtures();
 
   before("make knex instance", () => {
     db = knex({
@@ -58,7 +58,7 @@ describe("Articles Endpoints", function() {
           };
           return supertest(app)
             .get(endpoint.path)
-            .set("Authorization", makeAuthHeader(userInvalidCreds))
+            .set("Authorization", helpers.makeAuthHeader(userInvalidCreds))
             .expect(401, { error: `Unauthorized request` });
         });
         it(`responds 401 'Unauthorized request' when invalid password`, () => {
@@ -68,7 +68,7 @@ describe("Articles Endpoints", function() {
           };
           return supertest(app)
             .get(endpoint.path)
-            .set("Authorization", makeAuthHeader(userInvalidPass))
+            .set("Authorization", helpers.makeAuthHeader(userInvalidPass))
             .expect(401, { error: `Unauthorized request` });
         });
       });
